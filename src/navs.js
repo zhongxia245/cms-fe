@@ -36,23 +36,38 @@ const customAsideNavs = [
   {
     text: '数据维护',
     to: '/curd',
-    icon: 'shezhi',
+    icon: 'repair',
     children: [
       {
         text: '用户管理',
-        to: '/curd/tb_users',
+        to: '/curd/1',
       },
       {
         text: '工时管理',
-        to: '/curd/tb_worktimes',
+        to: '/curd/2',
       },
+    ],
+  },
+  {
+    text: '库表配置',
+    to: '/curd',
+    icon: 'code',
+    children: [
       {
-        text: '表配置',
-        to: '/curd/c_tableconfig',
+        text: '菜单配置',
+        to: '/private/config/navconfig',
       },
       {
         text: '库配置',
-        to: '/curd/c_dbconfig',
+        to: '/private/config/dbconfig',
+      },
+      {
+        text: '表配置',
+        to: '/private/config/tableconfig',
+      },
+      {
+        text: '字段配置',
+        to: '/private/config/tablefieldconfig',
       },
     ],
   },

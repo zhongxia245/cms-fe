@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Feedback } from '@icedesign/base'
 import SelectableTable from './components/SelectableTable'
 import SimpleFormDialog from './components/SimpleFormDialog'
-import { get, getById, del, update, add, getColumns } from './services'
 
 const setNullToEmptyStr = (data) => {
   for (const key in data) {
@@ -22,28 +21,24 @@ export default class XtTable extends Component {
       visible: false,
       dialogData: {},
       pageIndex: 1,
-      columns: []
+      filter: {}
     }
   }
 
-  getTableColumns = () => {
-    const { name } = this.props
+  getTableData = (filter) => {
+    const { name, get } = this.props
     this.setState({ isLoading: true })
-    getColumns(name).then(data => {
-      this.setState({ columns: data.data, isLoading: false })
-    })
-  }
-
-  getTableData = () => {
-    const { name } = this.props
-    this.setState({ isLoading: true })
-    get(name, this.state.pageIndex).then(data => {
-      this.setState({ dataSource: data.data.data, total: data.data.total, isLoading: false })
+    get(name, this.state.pageIndex, filter).then(data => {
+      if (filter) {
+        this.setState({ dataSource: data.data.data, total: data.data.total, isLoading: false, pageIndex: 1, filter: filter })
+      } else {
+        this.setState({ dataSource: data.data.data, total: data.data.total, isLoading: false, filter: {} })
+      }
     })
   }
 
   delTableData = (id) => {
-    const { name } = this.props
+    const { name, del } = this.props
     del(name, id).then(result => {
       Feedback.toast.success(`删除记录${id}成功!`)
       this.getTableData()
@@ -52,7 +47,6 @@ export default class XtTable extends Component {
 
   componentDidMount = () => {
     this.getTableData()
-    this.getTableColumns()
   }
 
   handleToggleDialog = (flag, record) => {
@@ -65,31 +59,37 @@ export default class XtTable extends Component {
   }
 
   handleSubmit = (data) => {
-    const { name } = this.props
+    const { filter } = this.state
+    const { name, update, add } = this.props
     if (data.id) {
       update(name, data).then(result => {
-        this.getTableData()
+        this.getTableData(filter)
         Feedback.toast.success('更新成功!')
         this.handleToggleDialog(false)
       })
     } else {
       add(name, data).then(result => {
-        this.getTableData()
+        this.getTableData(filter)
         Feedback.toast.success('添加成功!')
         this.handleToggleDialog(false)
       })
     }
   }
 
-  handleChangePage = (pageIndex) => {
+  handleChangePage = (pageIndex, pageSize) => {
+    let { filter } = this.state
+    if (typeof pageSize === 'number') {
+      filter = filter || {}
+      filter.pageSize = pageSize
+    }
     this.setState({ pageIndex: pageIndex }, () => {
-      this.getTableData()
+      this.getTableData(filter)
     })
   }
 
   render() {
-    const { name } = this.props
-    const { visible, dialogData, dataSource, total, isLoading, columns } = this.state
+    const { name, columns, filter } = this.props
+    const { visible, dialogData, dataSource, total, isLoading } = this.state
     return (
       <div className="XtTable-page">
         <SelectableTable
@@ -98,6 +98,8 @@ export default class XtTable extends Component {
           total={total}
           isLoading={isLoading}
           config={columns}
+          filter={filter}
+          getData={this.getTableData}
           toggleDialog={this.handleToggleDialog}
           onPageChange={this.handleChangePage}
           onDel={this.delTableData}

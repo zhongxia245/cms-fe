@@ -1,8 +1,8 @@
 import axios from 'axios'
 import URLS from './urls'
 
-export const get = (tableName, pageIndex, pageSize) => {
-  return axios.get(`${URLS.get}${tableName}/${pageIndex}`, { pageSize: pageSize })
+export const get = (tableName, pageIndex, filter) => {
+  return axios.get(`${URLS.get}${tableName}/${pageIndex}`, { params: filter })
 }
 
 export const getById = (tableName, id) => {
@@ -21,7 +21,12 @@ export const add = (tableName, user) => {
   return axios.post(`${URLS.add}${tableName}`, user)
 }
 
-export const getColumns = (tableName) => {
-  console.log(`${URLS.getColumns}${tableName}`);
-  return axios.get(`${URLS.getColumns}${tableName}`)
+export const getColumns = (tableId) => {
+  return axios.get(`${URLS.getColumnsById}${tableId}`)
 }
+
+export const getTableById = (tableId) => {
+  return axios.get(`${URLS.getTableById}${tableId}`)
+}
+
+

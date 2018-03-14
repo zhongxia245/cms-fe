@@ -63,10 +63,13 @@ export default class SimpleFormDialog extends Component {
   }
 
   renderRow = (item, index) => {
+    if (!item.form_show) {
+      return
+    }
     return (
       <Row style={styles.formRow} key={index}>
-        <Col span="3">
-          <label style={styles.formLabel}>{item.title}</label>
+        <Col span="6" style={styles.alignRight}>
+          <label style={styles.formLabel}>{item.title || item.name}：</label>
         </Col>
         <Col span="16">
           <IceFormBinder {...item.rules}>
@@ -120,4 +123,5 @@ const styles = {
   formRow: { marginTop: 20 },
   input: { width: '100%' },
   formLabel: { lineHeight: '26px' },
+  alignRight: { textAlign: 'right' },
 }

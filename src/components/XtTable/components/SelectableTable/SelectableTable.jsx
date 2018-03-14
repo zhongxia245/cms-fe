@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Icon, Pagination, Feedback, Dialog } from '@icedesign/base'
+import { Table, Button, Icon, Pagination, Feedback, Dialog, Search } from '@icedesign/base'
 import IceContainer from '@icedesign/container'
 
 export default class SelectableTable extends Component {
@@ -33,6 +33,8 @@ export default class SelectableTable extends Component {
       pageIndex: props.pageIndex || 1,
       dataSource: props.dataSource || [],
       total: props.dataSource || 0,
+      searchValue: '',
+      pageSize: props.pageSize || 10
     }
   }
 
@@ -45,7 +47,6 @@ export default class SelectableTable extends Component {
   editOrAddItem = (record = {}) => {
     const { toggleDialog } = this.props
     toggleDialog(true, record)
-    // this.setState({ visible: true, currentValue: record })
   }
 
   handleConfirmDel = (id) => {
@@ -74,6 +75,24 @@ export default class SelectableTable extends Component {
     this.handleConfirmDel(ids)
   }
 
+  onSearch = (data) => {
+    let filter = {}
+    if (data.key) {
+      filter[data.filter] = data.key
+    }
+    this.props.getData && this.props.getData(filter)
+  }
+
+  onSearchChange = (val) => {
+    this.setState({ searchValue: val })
+  }
+
+  onPageSizeChange = (size) => {
+    const { onPageChange } = this.props
+    this.setState({ pageSize: size })
+    onPageChange && onPageChange(this.state.pageIndex, size)
+  }
+
   renderOperator = (value, index, record) => {
     return (
       <div style={styles.fontColor}>
@@ -84,7 +103,7 @@ export default class SelectableTable extends Component {
   }
 
   render() {
-    const { config, onPageChange, total, dataSource, isLoading } = this.props
+    const { config, onPageChange, total, dataSource, isLoading, filter } = this.props
     return (
       <div className="selectable-table" style={styles.selectableTable}>
         {/*表格相关 START*/}
@@ -100,25 +119,39 @@ export default class SelectableTable extends Component {
               <Icon type="close" />清空选中
             </Button>
           </div>
+          {filter ? <Search
+            name="txtSearch"
+            placeholder="请输入值"
+            filter={filter}
+            value={this.state.searchValue}
+            onChange={this.onSearchChange}
+            onSearch={this.onSearch}
+            onFilterChange={this.onFilterChange}
+          /> : ''}
+
         </IceContainer>
         <IceContainer>
           <Table
             dataSource={dataSource}
             isLoading={isLoading}
+            width={'100%'}
             rowSelection={{
               ...this.rowSelection,
               selectedRowKeys: this.state.selectedRowKeys,
             }}
           >
             {config.map((item, index) => {
+              if (!item.col_show) {
+                return
+              }
               return (
                 <Table.Column
-                  key={index}
+                  key={item.id}
                   align={item.align || 'center'}
-                  title={item.title}
+                  title={item.title || item.name}
                   dataIndex={item.name}
-                  lock={item.lock}
-                  width={item.width} />
+                  lock={item.col_lock}
+                  width={item.col_width} />
               )
             })}
             <Table.Column title="操作" cell={this.renderOperator} lock="right" width={120}
@@ -126,7 +159,12 @@ export default class SelectableTable extends Component {
           </Table>
           {/*表格分页相关 START*/}
           <div style={styles.pagination}>
-            <Pagination total={total} onChange={onPageChange} />
+            <Pagination
+              total={total}
+              onChange={onPageChange}
+              pageSize={this.state.pageSize}
+              pageSizeSelector="filter"
+              onPageSizeChange={this.onPageSizeChange} />
           </div>
         </IceContainer>
 
