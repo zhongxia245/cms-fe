@@ -33,3 +33,7 @@ export const delTableConfig = (tableName, id) => {
 export const getColumns = (tableId) => {
   return axios.get(`${URLS.getColumnsById}${tableId}`)
 }
+
+export const getTableById = (tableId) => {
+  return axios.get(`${URLS.getTableById}${tableId}`)
+}

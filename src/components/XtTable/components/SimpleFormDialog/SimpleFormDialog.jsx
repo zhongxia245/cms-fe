@@ -73,7 +73,7 @@ export default class SimpleFormDialog extends Component {
         </Col>
         <Col span="16">
           <IceFormBinder {...item.rules}>
-            <Input name={item.name} style={styles.input} placeholder={`请输入${item.title}`} />
+            <Input name={item.name} style={styles.input} disabled={!!item.form_disabled} placeholder={`请输入${item.title}`} />
           </IceFormBinder>
           <IceFormError name={item.name} />
         </Col>

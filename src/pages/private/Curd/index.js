@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import XtTable from '../../components/XtTable';
-import { get, getById, del, update, add, getTableById, getColumns } from './services'
+import XtTable from '../../../components/XtTable';
+import { get, getById, del, update, add, getTableById, getColumns } from '../services'
 
 export default class Curd extends Component {
   static displayName = 'curd';

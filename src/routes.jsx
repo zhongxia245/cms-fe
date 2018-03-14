@@ -16,8 +16,8 @@ import Home from './pages/Home'
 import HeaderFooterLayout from './layouts/HeaderFooterLayout'
 import NotFound from './pages/NotFound'
 import HeaderAsideFooterResponsiveLayout from './layouts/HeaderAsideFooterResponsiveLayout'
-import Curd from './pages/Curd'
 import {
+  Curd,
   DbConfig,
   NavConfig,
   TableConfig,
