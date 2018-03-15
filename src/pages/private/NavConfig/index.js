@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import XtTable from '../../../components/XtTable';
-import { get, getById, del, update, add, getColumns } from '../services'
+import { get, getById, del, update, add, getColumns } from '../api'
 
 const COLUMNS_CONFIG = [
   {

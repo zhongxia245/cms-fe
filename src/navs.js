@@ -50,7 +50,7 @@ const customAsideNavs = [
   },
   {
     text: '库表配置',
-    to: '/curd',
+    to: '/private',
     icon: 'code',
     children: [
       {

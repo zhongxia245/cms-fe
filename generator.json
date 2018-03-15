@@ -22,31 +22,5 @@
     }
   ],
   "components": [],
-  "routes": [
-    {
-      "page": "Home",
-      "path": "/",
-      "layout": "HeaderAsideFooterLayout"
-    },
-    {
-      "page": "NotFound",
-      "path": "*",
-      "layout": "HeaderFooterLayout"
-    },
-    {
-      "page": "Worktime",
-      "path": "worktime",
-      "layout": "HeaderAsideFooterResponsiveLayout"
-    },
-    {
-      "page": "User",
-      "path": "user",
-      "layout": "HeaderAsideFooterResponsiveLayout"
-    },
-    {
-      "page": "Page5",
-      "path": "page5",
-      "layout": "HeaderAsideFooterResponsiveLayout"
-    }
-  ]
+  "routes": []
 }
