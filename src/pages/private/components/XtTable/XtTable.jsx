@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Feedback } from '@icedesign/base'
-import SelectableTable from './components/SelectableTable'
-import SimpleFormDialog from './components/SimpleFormDialog'
+import SelectableTable from '../SelectableTable'
+import SimpleFormDialog from '../SimpleFormDialog'
 
 const setNullToEmptyStr = (data) => {
   for (const key in data) {

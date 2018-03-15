@@ -1,8 +1,8 @@
-import DbConfig from './DbConfig'
-import NavConfig from './NavConfig'
-import TableConfig from './TableConfig'
-import TableFieldConfig from './TableFieldConfig'
-import Curd from './Curd'
+import DbConfig from './pages/DbConfig'
+import NavConfig from './pages/NavConfig'
+import TableConfig from './pages/TableConfig'
+import TableFieldConfig from './pages/TableFieldConfig'
+import Curd from './pages/Curd'
 
 export {
   Curd,

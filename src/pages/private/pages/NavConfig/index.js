@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import XtTable from '../../../components/XtTable';
-import { get, getById, del, update, add, getColumns } from '../api'
+import XtTable from '../../components/XtTable';
+import { get, getById, del, update, add, getColumns } from '../../api'
 
 const COLUMNS_CONFIG = [
   {
-    id: 123,
-    table_id: 29,
-    table_name: "c_dbconfig",
+    id: 156,
+    table_id: 31,
+    table_name: "c_navconfig",
     name: "id",
     fieldname: "id",
     title: "id",
@@ -18,7 +18,7 @@ const COLUMNS_CONFIG = [
     col_sort: 0,
     col_sortable: null,
     col_align: "center",
-    form_show: 0,
+    form_show: 1,
     form_type: 1,
     form_disabled: 0,
     form_sort: 0,
@@ -27,15 +27,15 @@ const COLUMNS_CONFIG = [
     form_validate_msg: null,
     form_rules: null,
     remark: "",
-    create_time: "2018-03-14T08:09:10.000Z"
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 126,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "host",
-    fieldname: "host",
-    title: "主机名",
+    id: 157,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "parent_id",
+    fieldname: "parent_id",
+    title: "父节点",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -52,16 +52,16 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: "主机名",
-    create_time: "2018-03-14T08:09:10.000Z"
+    remark: "父节点",
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 125,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "port",
-    fieldname: "port",
-    title: "端口",
+    id: 158,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "role_id",
+    fieldname: "role_id",
+    title: "角色id",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -78,16 +78,16 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: "端口",
-    create_time: "2018-03-14T08:09:10.000Z"
+    remark: "角色id",
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 128,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "user",
-    fieldname: "user",
-    title: "用户名",
+    id: 159,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "text",
+    fieldname: "text",
+    title: "菜单名称",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -104,16 +104,16 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: "用户名",
-    create_time: "2018-03-14T08:09:10.000Z"
+    remark: "菜单名称",
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 124,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "password",
-    fieldname: "password",
-    title: "密码",
+    id: 155,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "path",
+    fieldname: "path",
+    title: "路径",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -130,16 +130,16 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: "密码",
-    create_time: "2018-03-14T08:09:10.000Z"
+    remark: "路径",
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 127,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "database",
-    fieldname: "database",
-    title: "数据库",
+    id: 160,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "icon",
+    fieldname: "icon",
+    title: "图标",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -156,13 +156,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: "数据库",
-    create_time: "2018-03-14T08:09:10.000Z"
+    remark: "图标",
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 129,
-    table_id: 29,
-    table_name: "c_dbconfig",
+    id: 161,
+    table_id: 31,
+    table_name: "c_navconfig",
     name: "disabled",
     fieldname: "disabled",
     title: "禁用",
@@ -183,15 +183,15 @@ const COLUMNS_CONFIG = [
     form_validate_msg: null,
     form_rules: null,
     remark: "禁用",
-    create_time: "2018-03-14T08:09:10.000Z"
+    create_time: "2018-03-14T08:14:58.000Z"
   },
   {
-    id: 130,
-    table_id: 29,
-    table_name: "c_dbconfig",
-    name: "remark",
-    fieldname: "remark",
-    title: "备注",
+    id: 163,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "deleted",
+    fieldname: "deleted",
+    title: "删除",
     data_type: 0,
     col_show: 1,
     col_width: null,
@@ -208,21 +208,73 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
+    remark: "删除",
+    create_time: "2018-03-14T08:14:58.000Z"
+  },
+  {
+    id: 162,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "create_time",
+    fieldname: "create_time",
+    title: "创建时间",
+    data_type: 0,
+    col_show: 1,
+    col_width: null,
+    col_lock: "false",
+    col_unit: null,
+    col_sort: 8,
+    col_sortable: null,
+    col_align: "center",
+    form_show: 1,
+    form_type: 1,
+    form_disabled: 0,
+    form_sort: 8,
+    form_format: null,
+    form_required: 0,
+    form_validate_msg: null,
+    form_rules: null,
+    remark: "创建时间",
+    create_time: "2018-03-14T08:14:58.000Z"
+  },
+  {
+    id: 164,
+    table_id: 31,
+    table_name: "c_navconfig",
+    name: "remark",
+    fieldname: "remark",
+    title: "备注",
+    data_type: 0,
+    col_show: 1,
+    col_width: null,
+    col_lock: "false",
+    col_unit: null,
+    col_sort: 9,
+    col_sortable: null,
+    col_align: "center",
+    form_show: 1,
+    form_type: 1,
+    form_disabled: 0,
+    form_sort: 9,
+    form_format: null,
+    form_required: 0,
+    form_validate_msg: null,
+    form_rules: null,
     remark: "备注",
-    create_time: "2018-03-14T08:09:10.000Z"
+    create_time: "2018-03-14T08:14:58.000Z"
   }
 ]
 
 const FILTER = [
-  { text: "数据库", value: "database" },
-  { text: "主机名", value: "host" },
-  { text: "禁用", value: "disabled" },
+  { text: "id", value: "id" },
+  { text: "角色", value: "role_id" },
+  { text: "路径", value: "path" },
 ]
 
-export default class DbConfigTable extends Component {
-  static displayName = 'DbConfigTable';
+export default class NavConfigTable extends Component {
+  static displayName = 'NavConfigTable';
   render() {
-    const TABLE_NAME = 'c_dbconfig'
+    const TABLE_NAME = 'c_navconfig'
     const api = { get, getById, del, update, add, getColumns }
     // 这里的key不能少，否则react会缓存，不重新渲染
     return (
