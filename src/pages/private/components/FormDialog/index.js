@@ -12,7 +12,7 @@ import {
   NumberPicker,
   Field,
   Switch,
-  Grid
+  Grid,
 } from "@icedesign/base";
 
 const { RangePicker } = DatePicker;
@@ -20,37 +20,17 @@ const { Row, Col } = Grid;
 
 const FormItem = Form.Item;
 
-const formConfig = [
-  { controlType: 'input', label: '帐号', name: 'username', htmlType: 'password', placeholder: '请输入帐号', required: true },
-  { controlType: 'input', label: '密码', name: 'password', htmlType: 'text', placeholder: '请输入密码' },
-  { controlType: 'date', label: '日期', name: 'date', placeholder: '请选择时间' },
-  { controlType: 'datetime', label: '开始时间', name: 'datetime', placeholder: '请输入时间' },
-  { controlType: 'select', label: '类别', name: 'select', placeholder: '请输入类别', data: [{ text: '测试1', value: 'test' }, { text: '测试2', value: 'test2' }, { text: '测试3', value: 'test3' }] },
-  { controlType: 'switch', label: '禁用', name: 'disabled', placeholder: '是否禁用' },
-  { controlType: 'checkbox', label: '标签', name: 'tags', placeholder: '标签', data: [{ text: '测试1', value: 'test' }, { text: '测试2', value: 'test2' }, { text: '测试3', value: 'test3' }] },
-  { controlType: 'textarea', label: '标签', name: 'tags', placeholder: '标签', data: [{ text: '测试1', value: 'test' }, { text: '测试2', value: 'test2' }, { text: '测试3', value: 'test3' }] },
-]
-
-const CONTROL_TYPE = {
-  1: 'input',
-  2: 'textarea',
-  3: 'date',
-  4: 'datetime',
-  5: 'select',
-  6: 'switch',
-  7: 'checkbox',
-}
-
 const data2CompConfig = (config) => {
   let compConfig = []
   for (let i = 0; i < config.length; i++) {
     let item = config[i]
     if (!!item.form_show) {
       let compItem = {
-        controlType: CONTROL_TYPE[item['form_type']],
+        controlType: item['form_type'],
         label: item.title || item.name,
         name: item.name,
         disabled: !!item.form_disabled,
+        data: item.form_data || [{ text: '空', value: '' }],   // 下拉框，按钮组的选项
         rules: [{ required: !!item.required, message: '不能为空' }]
       }
       compConfig.push(compItem)
@@ -78,14 +58,13 @@ export default class FormGenerator extends Component {
   }
 
   renderFormItem = (item, index) => {
-    console.log(item)
     const { init } = this.field
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 }
     };
 
-    let formItemComp = '无内容'
+    let formItemComp = <Input {...item} htmlType="text" {...init(item.name, { rules: item.rules })} />
 
     switch (item.controlType) {
       case 'input':         // 文本框
@@ -94,7 +73,7 @@ export default class FormGenerator extends Component {
         })} />
         break
       case 'textarea':         // 文本框
-        formItemComp = <Input {...item} htmlType="text" multiple   {...init(item.name)} />
+        formItemComp = <Input {...item} htmlType="text" multiple  {...init(item.name)} />
         break
       case 'date':          // 日期组件
         formItemComp = <DatePicker {...item}  {...init(item.name)} />
@@ -106,13 +85,13 @@ export default class FormGenerator extends Component {
         formItemComp = (
           <Select {...item}  {...init(item.name)}>
             {item.data && item.data.map((subItem, subIndex) => {
-              return (<Option key={subIndex} value={subItem.text}>{subItem.value}</Option>)
+              return (<Option key={subIndex} value={subItem.value}>{subItem.text}</Option>)
             })}
           </Select>
         )
         break
       case 'switch':        // 开关组件
-        formItemComp = <Switch {...item}  {...init(item.name, { valueName: "checked", initValue: true })} />
+        formItemComp = <Switch {...item} {...init(item.name, { valueName: "checked", initValue: false })} />
         break
       case 'checkbox':      // 复选框
         formItemComp = item.data && item.data.map((subItem, subIndex) => {
@@ -136,9 +115,14 @@ export default class FormGenerator extends Component {
   renderForm = () => {
     const { config = [] } = this.props
     let compConfig = data2CompConfig(config)
-    return compConfig.map((item, index) => {
-      return this.renderFormItem(item, index)
-    })
+    let comps = []
+    for (let i = 0; i < compConfig.length; i = i + 2) {
+      comps.push(<Row key={i}>
+        <Col span={12}>{this.renderFormItem(compConfig[i], i)}</Col>
+        <Col span={12}>{compConfig[i + 1] ? this.renderFormItem(compConfig[i + 1], i + 1) : ''}</Col>
+      </Row>)
+    }
+    return comps
   }
 
   render() {
@@ -153,23 +137,3 @@ export default class FormGenerator extends Component {
     )
   }
 }
-
-
-
-
-// export default class componentName extends Component {
-//   onSubmit = () => {
-//     this.refs.refForm.onSubmit((data) => {
-//       console.log(data)
-//     })
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <FormGenerator ref='refForm' config={formConfig} />
-//         <Button onClick={this.onSubmit}>提交</Button>
-//       </div>
-//     )
-//   }
-// }
-

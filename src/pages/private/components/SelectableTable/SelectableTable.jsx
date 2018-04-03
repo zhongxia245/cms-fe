@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import { Table, Button, Icon, Pagination, Feedback, Dialog, Search } from '@icedesign/base'
+import Ellipsis from '@icedesign/ellipsis'
 import IceContainer from '@icedesign/container'
+
+const renderOneRow = (value) => {
+  return <Ellipsis showTooltip={false} text={String(value)} />
+};
 
 export default class SelectableTable extends Component {
   static displayName = 'SelectableTable'
@@ -93,6 +98,7 @@ export default class SelectableTable extends Component {
     onPageChange && onPageChange(this.state.pageIndex, size)
   }
 
+
   renderOperator = (value, index, record) => {
     return (
       <div style={styles.fontColor}>
@@ -151,6 +157,7 @@ export default class SelectableTable extends Component {
                   title={item.title || item.name}
                   dataIndex={item.name}
                   lock={item.col_lock}
+                  cell={renderOneRow}
                   width={item.col_width} />
               )
             })}

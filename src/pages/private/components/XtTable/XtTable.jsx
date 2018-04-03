@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Feedback } from '@icedesign/base'
 import SelectableTable from '../SelectableTable'
 import SimpleFormDialog from '../SimpleFormDialog'
+import FormDialog from '../FormDialog'
 
 const setNullToEmptyStr = (data) => {
   for (const key in data) {
@@ -59,21 +60,23 @@ export default class XtTable extends Component {
   }
 
   handleSubmit = (data) => {
-    const { filter } = this.state
-    const { name, update, add } = this.props
-    if (data.id) {
-      update(name, data).then(result => {
-        this.getTableData(filter)
-        Feedback.toast.success('更新成功!')
-        this.handleToggleDialog(false)
-      })
-    } else {
-      add(name, data).then(result => {
-        this.getTableData(filter)
-        Feedback.toast.success('添加成功!')
-        this.handleToggleDialog(false)
-      })
-    }
+    this.refs.refForm.onSubmit((data) => {
+      const { filter } = this.state
+      const { name, update, add } = this.props
+      if (data.id) {
+        update(name, data).then(result => {
+          this.getTableData(filter)
+          Feedback.toast.success('更新成功!')
+          this.handleToggleDialog(false)
+        })
+      } else {
+        add(name, data).then(result => {
+          this.getTableData(filter)
+          Feedback.toast.success('添加成功!')
+          this.handleToggleDialog(false)
+        })
+      }
+    })
   }
 
   handleChangePage = (pageIndex, pageSize) => {
@@ -106,12 +109,12 @@ export default class XtTable extends Component {
         />
         <SimpleFormDialog
           key={`dialog_${name}`}
-          config={columns}
           visible={visible}
-          data={dialogData}
           onSubmit={this.handleSubmit}
           onHide={this.handleToggleDialog}
-        />
+        >
+          <FormDialog ref='refForm' config={columns} data={dialogData} />
+        </SimpleFormDialog>
       </div>
     )
   }

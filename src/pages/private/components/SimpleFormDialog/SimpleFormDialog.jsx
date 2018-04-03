@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Dialog, Grid, Button, Feedback } from '@icedesign/base'
-import FormDialog from '../FormDialog'
+
 
 export default class SimpleFormDialog extends Component {
   static displayName = 'SimpleFormDialog'
@@ -27,37 +27,29 @@ export default class SimpleFormDialog extends Component {
     this.props.onHide && this.props.onHide(false)
   }
 
-  onOk = () => {
-    const { tableName, updateData, addData, onSubmit } = this.props
-    this.refs.refForm.onSubmit((data) => {
-      onSubmit && onSubmit(data)
-    })
-  }
-
   render() {
-    const { config, data } = this.props
     return (
       <Dialog
         className="simple-form-dialog"
         style={styles.simpleFormDialog}
         autoFocus={false}
         footerAlign="center"
+        align="cc tc"
         title={`数据编辑`}
         {...this.props}
-        onOk={this.onOk}
+        onOk={this.props.onSubmit}
         onCancel={this.hideDialog}
         onClose={this.hideDialog}
         isFullScreen
         visible={this.state.visible}
       >
-        <FormDialog ref='refForm' config={config} data={data} />
       </Dialog>
     )
   }
 }
 
 const styles = {
-  simpleFormDialog: { width: '640px' },
+  simpleFormDialog: { width: '70%' },
   dialogContent: {},
   formRow: { marginTop: 20 },
   input: { width: '100%' },
