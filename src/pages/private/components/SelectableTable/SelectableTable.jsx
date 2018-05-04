@@ -3,9 +3,9 @@ import { Table, Button, Icon, Pagination, Feedback, Dialog, Search } from '@iced
 import Ellipsis from '@icedesign/ellipsis'
 import IceContainer from '@icedesign/container'
 
-const renderOneRow = (value) => {
+const renderOneRow = value => {
   return <Ellipsis showTooltip={false} text={String(value)} />
-};
+}
 
 export default class SelectableTable extends Component {
   static displayName = 'SelectableTable'
@@ -15,9 +15,9 @@ export default class SelectableTable extends Component {
     // 表格可以勾选配置项
     this.rowSelection = {
       // 表格发生勾选状态变化时触发
-      onChange: (ids) => {
+      onChange: ids => {
         this.setState({
-          selectedRowKeys: ids,
+          selectedRowKeys: ids
         })
       },
       // 全选表格时触发的回调
@@ -25,11 +25,11 @@ export default class SelectableTable extends Component {
         console.log('onSelectAll', selected, records)
       },
       // 支持针对特殊行进行定制
-      getProps: (record) => {
+      getProps: record => {
         return {
-          disabled: record.id === 100306660941,
+          disabled: record.id === 100306660941
         }
-      },
+      }
     }
 
     this.state = {
@@ -45,7 +45,7 @@ export default class SelectableTable extends Component {
 
   clearSelectedKeys = () => {
     this.setState({
-      selectedRowKeys: [],
+      selectedRowKeys: []
     })
   }
 
@@ -54,14 +54,14 @@ export default class SelectableTable extends Component {
     toggleDialog(true, record)
   }
 
-  handleConfirmDel = (id) => {
+  handleConfirmDel = id => {
     const { onDel } = this.props
     Dialog.confirm({
       title: '温馨提示',
       content: `确定删除id=${id}的数据?`,
       locale: {
-        ok: "确认",
-        cancel: "取消"
+        ok: '确认',
+        cancel: '取消'
       },
       onOk: () => {
         onDel && onDel(id)
@@ -69,7 +69,7 @@ export default class SelectableTable extends Component {
     })
   }
 
-  deleteItem = (record) => {
+  deleteItem = record => {
     const { id } = record
     this.handleConfirmDel(id)
   }
@@ -80,7 +80,7 @@ export default class SelectableTable extends Component {
     this.handleConfirmDel(ids)
   }
 
-  onSearch = (data) => {
+  onSearch = data => {
     let filter = {}
     if (data.key) {
       filter[data.filter] = data.key
@@ -88,22 +88,25 @@ export default class SelectableTable extends Component {
     this.props.getData && this.props.getData(filter)
   }
 
-  onSearchChange = (val) => {
+  onSearchChange = val => {
     this.setState({ searchValue: val })
   }
 
-  onPageSizeChange = (size) => {
+  onPageSizeChange = size => {
     const { onPageChange } = this.props
     this.setState({ pageSize: size })
     onPageChange && onPageChange(this.state.pageIndex, size)
   }
 
-
   renderOperator = (value, index, record) => {
     return (
       <div style={styles.fontColor}>
-        <a style={styles.editBtn} onClick={this.editOrAddItem.bind(this, record)}>编辑</a>
-        <a style={styles.removeBtn} onClick={this.deleteItem.bind(this, record)}>删除</a>
+        <a style={styles.editBtn} onClick={this.editOrAddItem.bind(this, record)}>
+          编辑
+        </a>
+        <a style={styles.removeBtn} onClick={this.deleteItem.bind(this, record)}>
+          删除
+        </a>
       </div>
     )
   }
@@ -118,23 +121,31 @@ export default class SelectableTable extends Component {
             <Button size="small" style={styles.batchBtn} onClick={this.editOrAddItem.bind(this, {})}>
               <Icon type="add" />增加
             </Button>
-            <Button onClick={this.deleteSelectedKeys} size="small" style={styles.batchBtn} disabled={!this.state.selectedRowKeys.length}>
+            <Button
+              onClick={this.deleteSelectedKeys}
+              size="small"
+              style={styles.batchBtn}
+              disabled={!this.state.selectedRowKeys.length}
+            >
               <Icon type="ashbin" />删除
             </Button>
             <Button onClick={this.clearSelectedKeys} size="small" style={styles.batchBtn}>
               <Icon type="close" />清空选中
             </Button>
           </div>
-          {filter ? <Search
-            name="txtSearch"
-            placeholder="请输入值"
-            filter={filter}
-            value={this.state.searchValue}
-            onChange={this.onSearchChange}
-            onSearch={this.onSearch}
-            onFilterChange={this.onFilterChange}
-          /> : ''}
-
+          {filter ? (
+            <Search
+              name="txtSearch"
+              placeholder="请输入值"
+              filter={filter}
+              value={this.state.searchValue}
+              onChange={this.onSearchChange}
+              onSearch={this.onSearch}
+              onFilterChange={this.onFilterChange}
+            />
+          ) : (
+            ''
+          )}
         </IceContainer>
         <IceContainer>
           <Table
@@ -143,7 +154,7 @@ export default class SelectableTable extends Component {
             width={'100%'}
             rowSelection={{
               ...this.rowSelection,
-              selectedRowKeys: this.state.selectedRowKeys,
+              selectedRowKeys: this.state.selectedRowKeys
             }}
           >
             {config.map((item, index) => {
@@ -152,17 +163,17 @@ export default class SelectableTable extends Component {
               }
               return (
                 <Table.Column
-                  key={item.id}
+                  key={`${item.id}_${index}`}
                   align={item.align || 'center'}
                   title={item.title || item.name}
                   dataIndex={item.name}
                   lock={item.col_lock}
                   cell={renderOneRow}
-                  width={item.col_width} />
+                  width={item.col_width}
+                />
               )
             })}
-            <Table.Column title="操作" cell={this.renderOperator} lock="right" width={120}
-            />
+            <Table.Column title="操作" cell={this.renderOperator} lock="right" width={120} />
           </Table>
           {/*表格分页相关 START*/}
           <div style={styles.pagination}>
@@ -171,7 +182,8 @@ export default class SelectableTable extends Component {
               onChange={onPageChange}
               pageSize={this.state.pageSize}
               pageSizeSelector="filter"
-              onPageSizeChange={this.onPageSizeChange} />
+              onPageSizeChange={this.onPageSizeChange}
+            />
           </div>
         </IceContainer>
 
@@ -183,24 +195,24 @@ export default class SelectableTable extends Component {
 
 const styles = {
   batchBtn: {
-    marginRight: '10px',
+    marginRight: '10px'
   },
   IceContainer: {
     marginBottom: '20px',
     minHeight: 'auto',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   removeBtn: {
     marginLeft: 10,
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   pagination: {
     textAlign: 'right',
-    paddingTop: '26px',
+    paddingTop: '26px'
   },
   editBtn: {
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   fontColor: {
     color: '#2A64E8'

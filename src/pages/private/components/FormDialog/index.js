@@ -1,4 +1,4 @@
-import './index.scss';
+import './index.scss'
 import React, { Component } from 'react'
 import {
   Form,
@@ -12,15 +12,15 @@ import {
   NumberPicker,
   Field,
   Switch,
-  Grid,
-} from "@icedesign/base";
+  Grid
+} from '@icedesign/base'
 
-const { RangePicker } = DatePicker;
-const { Row, Col } = Grid;
+const { RangePicker } = DatePicker
+const { Row, Col } = Grid
 
-const FormItem = Form.Item;
+const FormItem = Form.Item
 
-const data2CompConfig = (config) => {
+const data2CompConfig = config => {
   let compConfig = []
   for (let i = 0; i < config.length; i++) {
     let item = config[i]
@@ -30,7 +30,7 @@ const data2CompConfig = (config) => {
         label: item.title || item.name,
         name: item.name,
         disabled: !!item.form_disabled,
-        data: item.form_data || [{ text: '空', value: '' }],   // 下拉框，按钮组的选项
+        data: item.form_data || [{ text: '空', value: '' }], // 下拉框，按钮组的选项
         rules: [{ required: !!item.required, message: '不能为空' }]
       }
       compConfig.push(compItem)
@@ -40,21 +40,20 @@ const data2CompConfig = (config) => {
 }
 
 export default class FormGenerator extends Component {
-  field = new Field(this);
+  field = new Field(this)
 
   componentDidMount = () => {
     this.field.setValues(this.props.data)
   }
 
-
   onSubmit(callback) {
     this.field.validate((errors, values) => {
       if (errors) {
-        console.log("Errors in form!!!");
-        return;
+        console.log('Errors in form!!!')
+        return
       }
       callback && callback(values)
-    });
+    })
   }
 
   renderFormItem = (item, index) => {
@@ -62,41 +61,75 @@ export default class FormGenerator extends Component {
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 }
-    };
+    }
 
-    let formItemComp = <Input {...item} htmlType="text" {...init(item.name, { rules: item.rules })} />
+    let formItemComp = (
+      <Input
+        {...item}
+        htmlType="text"
+        {...init(item.name, { rules: item.rules })}
+      />
+    )
 
     switch (item.controlType) {
-      case 'input':         // 文本框
-        formItemComp = <Input {...item} htmlType="text" {...init(item.name, {
-          rules: item.rules
-        })} />
+      case 'input': // 文本框
+        formItemComp = (
+          <Input
+            {...item}
+            htmlType="text"
+            {...init(item.name, {
+              rules: item.rules
+            })}
+          />
+        )
         break
-      case 'textarea':         // 文本框
-        formItemComp = <Input {...item} htmlType="text" multiple  {...init(item.name)} />
+      case 'textarea': // 文本框
+        formItemComp = (
+          <Input {...item} htmlType="text" multiple {...init(item.name)} />
+        )
         break
-      case 'date':          // 日期组件
-        formItemComp = <DatePicker {...item}  {...init(item.name)} />
+      case 'date': // 日期组件
+        formItemComp = <DatePicker {...item} {...init(item.name)} />
         break
-      case 'datetime':      // 时间组件
+      case 'datetime': // 时间组件
         formItemComp = <DatePicker {...item} showTime {...init(item.name)} />
         break
-      case 'select':        // 下拉框
+      case 'select': // 下拉框
         formItemComp = (
-          <Select {...item}  {...init(item.name)}>
-            {item.data && item.data.map((subItem, subIndex) => {
-              return (<Option key={subIndex} value={subItem.value}>{subItem.text}</Option>)
-            })}
+          <Select {...item} {...init(item.name)}>
+            {item.data &&
+              item.data.map((subItem, subIndex) => {
+                return (
+                  <Option key={subIndex} value={subItem.value}>
+                    {subItem.text}
+                  </Option>
+                )
+              })}
           </Select>
         )
         break
-      case 'switch':        // 开关组件
-        formItemComp = <Switch {...item} {...init(item.name, { valueName: "checked", initValue: false })} />
+      case 'switch': // 开关组件
+        formItemComp = (
+          <Switch
+            {...item}
+            {...init(item.name, { valueName: 'checked', initValue: false })}
+          />
+        )
         break
-      case 'checkbox':      // 复选框
-        formItemComp = item.data && item.data.map((subItem, subIndex) => {
-          return <Checkbox {...item} key={subIndex}  {...init(`${item.name}_${subIndex}`)}>{subItem.text} </Checkbox>
-        })
+      case 'checkbox': // 复选框
+        formItemComp =
+          item.data &&
+          item.data.map((subItem, subIndex) => {
+            return (
+              <Checkbox
+                {...item}
+                key={subIndex}
+                {...init(`${item.name}_${subIndex}`)}
+              >
+                {subItem.text}{' '}
+              </Checkbox>
+            )
+          })
         break
     }
 
@@ -106,7 +139,13 @@ export default class FormGenerator extends Component {
     }
 
     return (
-      <FormItem className={cls} key={`${item.name}_${index}`} label={`${item.label}：`} {...formItemLayout} size={'medium'}>
+      <FormItem
+        className={cls}
+        key={`${item.name}_${index}`}
+        label={`${item.label}：`}
+        {...formItemLayout}
+        size={'medium'}
+      >
         {formItemComp}
       </FormItem>
     )
@@ -117,10 +156,16 @@ export default class FormGenerator extends Component {
     let compConfig = data2CompConfig(config)
     let comps = []
     for (let i = 0; i < compConfig.length; i = i + 2) {
-      comps.push(<Row key={i}>
-        <Col span={12}>{this.renderFormItem(compConfig[i], i)}</Col>
-        <Col span={12}>{compConfig[i + 1] ? this.renderFormItem(compConfig[i + 1], i + 1) : ''}</Col>
-      </Row>)
+      comps.push(
+        <Row key={i}>
+          <Col span={12}>{this.renderFormItem(compConfig[i], i)}</Col>
+          <Col span={12}>
+            {compConfig[i + 1]
+              ? this.renderFormItem(compConfig[i + 1], i + 1)
+              : ''}
+          </Col>
+        </Row>
+      )
     }
     return comps
   }
@@ -129,11 +174,7 @@ export default class FormGenerator extends Component {
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 }
-    };
-    return (
-      <Form field={this.field}>
-        {this.renderForm()}
-      </Form>
-    )
+    }
+    return <Form field={this.field}>{this.renderForm()}</Form>
   }
 }

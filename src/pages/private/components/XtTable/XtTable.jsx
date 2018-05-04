@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import { Feedback } from '@icedesign/base'
+import { Feedback, Dialog } from '@icedesign/base'
 import SelectableTable from '../SelectableTable'
-import SimpleFormDialog from '../SimpleFormDialog'
 import FormDialog from '../FormDialog'
 
-const setNullToEmptyStr = (data) => {
+const setNullToEmptyStr = data => {
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key] = data[key] || ''
+      if (data[key] === undefined || data[key] === null) {
+        data[key] = ''
+      } else {
+        data[key] = data[key]
+      }
     }
   }
   return data
@@ -26,19 +29,30 @@ export default class XtTable extends Component {
     }
   }
 
-  getTableData = (filter) => {
+  getTableData = filter => {
     const { name, get } = this.props
     this.setState({ isLoading: true })
     get(name, this.state.pageIndex, filter).then(data => {
       if (filter) {
-        this.setState({ dataSource: data.data.data, total: data.data.total, isLoading: false, pageIndex: 1, filter: filter })
+        this.setState({
+          dataSource: data.data.data,
+          total: data.data.total,
+          isLoading: false,
+          pageIndex: 1,
+          filter: filter
+        })
       } else {
-        this.setState({ dataSource: data.data.data, total: data.data.total, isLoading: false, filter: {} })
+        this.setState({
+          dataSource: data.data.data,
+          total: data.data.total,
+          isLoading: false,
+          filter: {}
+        })
       }
     })
   }
 
-  delTableData = (id) => {
+  delTableData = id => {
     const { name, del } = this.props
     del(name, id).then(result => {
       Feedback.toast.success(`删除记录${id}成功!`)
@@ -59,24 +73,27 @@ export default class XtTable extends Component {
     this.setState({ visible: flag, dialogData: dialogData })
   }
 
-  handleSubmit = (data) => {
-    this.refs.refForm.onSubmit((data) => {
-      const { filter } = this.state
-      const { name, update, add } = this.props
-      if (data.id) {
-        update(name, data).then(result => {
-          this.getTableData(filter)
-          Feedback.toast.success('更新成功!')
-          this.handleToggleDialog(false)
-        })
-      } else {
-        add(name, data).then(result => {
-          this.getTableData(filter)
-          Feedback.toast.success('添加成功!')
-          this.handleToggleDialog(false)
-        })
-      }
-    })
+  handleSubmit = data => {
+    let refForm = this.refs.refForm || this.refs.refCustomForm
+    if (refForm) {
+      refForm.onSubmit(data => {
+        const { filter } = this.state
+        const { name, update, add } = this.props
+        if (data.id) {
+          update(name, data).then(result => {
+            this.getTableData(filter)
+            Feedback.toast.success('更新成功!')
+            this.handleToggleDialog(false)
+          })
+        } else {
+          add(name, data).then(result => {
+            this.getTableData(filter)
+            Feedback.toast.success('添加成功!')
+            this.handleToggleDialog(false)
+          })
+        }
+      })
+    }
   }
 
   handleChangePage = (pageIndex, pageSize) => {
@@ -91,8 +108,18 @@ export default class XtTable extends Component {
   }
 
   render() {
-    const { name, columns, filter } = this.props
+    const { name, columns, filter, children } = this.props
     const { visible, dialogData, dataSource, total, isLoading } = this.state
+
+    let newChildren = ''
+    if (children) {
+      newChildren = React.cloneElement(children, {
+        ref: 'refCustomForm',
+        onHide: this.handleToggleDialog.bind(this, false),
+        data: dialogData
+      })
+    }
+
     return (
       <div className="XtTable-page">
         <SelectableTable
@@ -107,15 +134,37 @@ export default class XtTable extends Component {
           onPageChange={this.handleChangePage}
           onDel={this.delTableData}
         />
-        <SimpleFormDialog
-          key={`dialog_${name}`}
-          visible={visible}
-          onSubmit={this.handleSubmit}
-          onHide={this.handleToggleDialog}
+
+        <Dialog
+          className="simple-form-dialog"
+          style={styles.simpleFormDialog}
+          autoFocus={false}
+          footerAlign="center"
+          align="cc tc"
+          title={`数据编辑`}
+          {...this.props}
+          onOk={this.handleSubmit}
+          onCancel={this.handleToggleDialog.bind(this, false)}
+          onClose={this.handleToggleDialog.bind(this, false)}
+          isFullScreen
+          visible={this.state.visible}
         >
-          <FormDialog ref='refForm' config={columns} data={dialogData} />
-        </SimpleFormDialog>
+          {newChildren ? (
+            newChildren
+          ) : (
+            <FormDialog ref="refForm" config={columns} data={dialogData} />
+          )}
+        </Dialog>
       </div>
     )
   }
+}
+
+const styles = {
+  simpleFormDialog: { width: '70%' },
+  dialogContent: {},
+  formRow: { marginTop: 20 },
+  input: { width: '100%' },
+  formLabel: { lineHeight: '26px' },
+  alignRight: { textAlign: 'right' }
 }

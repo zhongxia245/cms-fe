@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import XtTable from '../../components/XtTable';
+import React, { Component } from 'react'
+import XtTable from '../../components/XtTable'
 import { get, getById, del, update, add, getTableById, getColumns } from '../../api'
 
 export default class Curd extends Component {
-  static displayName = 'curd';
+  static displayName = 'curd'
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       columns: [],
       tableName: ''
@@ -28,7 +28,6 @@ export default class Curd extends Component {
     }
   }
 
-
   render() {
     const { tableId } = this.props.params
     const { columns, tableName } = this.state
@@ -36,8 +35,8 @@ export default class Curd extends Component {
     // 这里的key不能少，否则react会缓存，不重新渲染
     return (
       <div className="curd-page" key={`${tableName}_${tableId}`}>
-        {tableName ? <XtTable  {...api} name={tableName} columns={columns} /> : ''}
+        {tableName ? <XtTable {...api} name={tableName} columns={columns} /> : ''}
       </div>
-    );
+    )
   }
 }

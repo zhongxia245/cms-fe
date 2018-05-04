@@ -18,9 +18,14 @@
     "bizcharts": "latest",
     "classnames": "^2.2.5",
     "foundation-symbol": "^0.1.0",
+    "immutable": "^3.8.2",
+    "is-hotkey": "^0.1.2",
     "prop-types": "^15.5.8",
     "react-document-title": "^2.0.3",
-    "react-router": "^3.2.0"
+    "react-router": "^3.2.0",
+    "slate": "^0.32.5",
+    "slate-plain-serializer": "^0.5.10",
+    "slate-react": "^0.11.6"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
@@ -46,8 +51,8 @@
     "entry": "src/index.js"
   },
   "scaffoldConfig": {
-    "name": "ice-design-lite",
-    "title": "Ice Design Lite",
+    "name": "xt-admin",
+    "title": "通用后台管理系统",
     "snapshot": "https://img.alicdn.com/tfs/TB1E8RHb21TBuNjy0FjXXajyXXa-2838-1596.png"
   },
   "title": "CMS"
