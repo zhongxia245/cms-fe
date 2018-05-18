@@ -53,7 +53,8 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
             parent_id: item.parent_id,
             text: item.text,
             icon: item.icon,
-            to: item.path
+            to: item.path,
+            newWindow: item.path && item.path.indexOf('http') !== -1
           })
         }
       }
