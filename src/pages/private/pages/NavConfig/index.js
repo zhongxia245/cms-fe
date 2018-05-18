@@ -4,8 +4,6 @@ import { get, getById, del, update, add, getColumns } from '../../api'
 
 const COLUMNS_CONFIG = [
   {
-    id: 156,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'id',
     fieldname: 'id',
@@ -25,17 +23,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: ''
   },
   {
-    id: 157,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'parent_id',
     fieldname: 'parent_id',
     title: '父节点',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -51,17 +45,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '父节点',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '父节点'
   },
   {
-    id: 159,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'text',
     fieldname: 'text',
     title: '菜单名称',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -77,17 +67,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '菜单名称',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '菜单名称'
   },
   {
-    id: 160,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'path',
     fieldname: 'path',
     title: '路径',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -102,17 +88,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '路径',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '路径'
   },
   {
-    id: 160,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'icon',
     fieldname: 'icon',
     title: '图标',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -128,17 +110,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '图标',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '图标'
   },
   {
-    id: 161,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'disabled',
     fieldname: 'disabled',
     title: '禁用',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -147,24 +125,20 @@ const COLUMNS_CONFIG = [
     col_sortable: null,
     col_align: 'center',
     form_show: 1,
-    form_type: 'input',
+    form_type: 'switch',
     form_disabled: 0,
     form_sort: 6,
     form_format: null,
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '禁用',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '禁用'
   },
   {
-    id: 162,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'create_time',
     fieldname: 'create_time',
     title: '创建时间',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -180,17 +154,13 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '创建时间',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '创建时间'
   },
   {
-    id: 164,
-    table_id: 31,
     table_name: 'c_navconfig',
     name: 'remark',
     fieldname: 'remark',
     title: '备注',
-    data_type: 0,
     col_show: 1,
     col_width: null,
     col_lock: 'false',
@@ -206,16 +176,11 @@ const COLUMNS_CONFIG = [
     form_required: 0,
     form_validate_msg: null,
     form_rules: null,
-    remark: '备注',
-    create_time: '2018-03-14T08:14:58.000Z'
+    remark: '备注'
   }
 ]
 
-const FILTER = [
-  { text: 'id', value: 'id' },
-  { text: '角色', value: 'role_id' },
-  { text: '路径', value: 'path' }
-]
+const FILTER = [{ text: 'id', value: 'id' }, { text: '角色', value: 'role_id' }, { text: '路径', value: 'path' }]
 
 export default class NavConfigTable extends Component {
   static displayName = 'NavConfigTable'
@@ -225,12 +190,7 @@ export default class NavConfigTable extends Component {
     // 这里的key不能少，否则react会缓存，不重新渲染
     return (
       <div className="table-page" key={TABLE_NAME}>
-        <XtTable
-          {...api}
-          name={TABLE_NAME}
-          columns={COLUMNS_CONFIG}
-          filter={FILTER}
-        />
+        <XtTable {...api} name={TABLE_NAME} columns={COLUMNS_CONFIG} filter={FILTER} />
       </div>
     )
   }
