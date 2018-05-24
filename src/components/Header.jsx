@@ -1,51 +1,42 @@
-import React, { PureComponent } from 'react';
-import { Balloon, Icon } from '@icedesign/base';
-import IceImg from '@icedesign/img';
-import Layout from '@icedesign/layout';
-import Menu from '@icedesign/menu';
-import FoundationSymbol from 'foundation-symbol';
-import { Link } from 'react-router';
-import { headerNavs } from './../navs';
-import Logo from './Logo';
+import React, { PureComponent } from 'react'
+import { Balloon, Icon } from '@icedesign/base'
+import IceImg from '@icedesign/img'
+import Layout from '@icedesign/layout'
+import Menu from '@icedesign/menu'
+import FoundationSymbol from 'foundation-symbol'
+import { Link } from 'react-router'
+import { headerNavs } from './../navs'
+import Logo from './Logo'
 
 export default class Header extends PureComponent {
   render() {
-    const { width, theme } = this.props;
+    const { width, theme } = this.props
 
     return (
-      <Layout.Header
-        theme={theme}
-        className="ice-design-layout-header"
-        style={{ width }}
-      >
+      <Layout.Header theme={theme} className="ice-design-layout-header" style={{ width }}>
         <Logo />
-        <div
-          className="ice-design-layout-header-menu"
-          style={{ display: 'flex' }}
-        >
+        <div className="ice-design-layout-header-menu" style={{ display: 'flex' }}>
           {/* Header 菜单项 begin */}
           {headerNavs && headerNavs.length > 0 ? (
             <Menu mode="horizontal" selectedKeys={[]}>
               {headerNavs.map((nav, idx) => {
-                const linkProps = {};
+                const linkProps = {}
                 if (nav.newWindow) {
-                  linkProps.href = nav.to;
-                  linkProps.target = '_blank';
+                  linkProps.href = nav.to
+                  linkProps.target = '_blank'
                 } else if (nav.external) {
-                  linkProps.href = nav.to;
+                  linkProps.href = nav.to
                 } else {
-                  linkProps.to = nav.to;
+                  linkProps.to = nav.to
                 }
                 return (
                   <Menu.Item key={idx}>
                     <Link {...linkProps}>
-                      {nav.icon ? (
-                        <FoundationSymbol type={nav.icon} size="small" />
-                      ) : null}
+                      {nav.icon ? <FoundationSymbol type={nav.icon} size="small" /> : null}
                       {nav.text}
                     </Link>
                   </Menu.Item>
-                );
+                )
               })}
             </Menu>
           ) : null}
@@ -61,7 +52,7 @@ export default class Header extends PureComponent {
                   marginLeft: 20,
                   display: 'flex',
                   alignItems: 'center',
-                  fontSize: 12,
+                  fontSize: 12
                 }}
               >
                 <IceImg
@@ -75,18 +66,11 @@ export default class Header extends PureComponent {
                     Xt
                   </span>
                   <br />
-                  <span
-                    className="user-department"
-                    style={{ fontSize: '12px' }}
-                  >
+                  <span className="user-department" style={{ fontSize: '12px' }}>
                     技术部
                   </span>
                 </div>
-                <Icon
-                  type="arrow-down-filling"
-                  size="xxs"
-                  className="icon-down"
-                />
+                <Icon type="arrow-down-filling" size="xxs" className="icon-down" />
               </div>
             }
             closable={false}
@@ -103,15 +87,20 @@ export default class Header extends PureComponent {
                   <FoundationSymbol type="repair" size="small" />设置
                 </Link>
               </li>
-              <li className="user-profile-menu-item">
-                <Link to="/login">
-                  <FoundationSymbol type="compass" size="small" />退出
-                </Link>
+              <li
+                style={{ color: 'rgb(42, 100, 232)' }}
+                className="user-profile-menu-item"
+                onClick={() => {
+                  localStorage.removeItem('_xt')
+                  window.location.href = '#/login'
+                }}
+              >
+                <FoundationSymbol type="compass" size="small" />退出
               </li>
             </ul>
           </Balloon>
         </div>
       </Layout.Header>
-    );
+    )
   }
 }

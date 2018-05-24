@@ -91,10 +91,17 @@ const customRoutes = [
 
 // 跳转前做一些判断,比如是否登录
 function createElement(Component, props) {
-  // if (props.location.pathname.indexOf('login') === -1 && localStorage.getItem('isLogin')) {
-  //   localStorage.setItem('isLogin', 1)
-  //   window.location.href = '#/login'
-  // }
+  // 非登录页面，未登录则跳去登录页面
+  if (props.location.pathname.indexOf('login') === -1) {
+    if (!localStorage.getItem('_xt')) {
+      window.location.href = '#/login'
+    }
+  } else {
+    // 登录页面，如果已经登录则跳去首页
+    if (localStorage.getItem('_xt')) {
+      window.location.href = '#/'
+    }
+  }
   return <Component {...props} />
 }
 

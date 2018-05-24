@@ -180,7 +180,11 @@ const COLUMNS_CONFIG = [
   }
 ]
 
-const FILTER = [{ text: 'id', value: 'id' }, { text: '角色', value: 'role_id' }, { text: '路径', value: 'path' }]
+const FILTER = [
+  { text: 'id', value: 'id' },
+  { text: '父节点', value: 'parent_id' },
+  { text: '禁用', value: 'disabled' }
+]
 
 export default class NavConfigTable extends Component {
   static displayName = 'NavConfigTable'

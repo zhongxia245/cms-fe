@@ -38,6 +38,7 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
       let childrenNavs = []
       for (let i = 0; i < data.length; i++) {
         let item = data[i]
+        if (item.disabled === 1) continue
         if (item.parent_id === 0) {
           autoCustomNavs.push({
             id: item.id,
