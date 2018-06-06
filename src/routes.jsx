@@ -93,12 +93,12 @@ const customRoutes = [
 function createElement(Component, props) {
   // 非登录页面，未登录则跳去登录页面
   if (props.location.pathname.indexOf('login') === -1) {
-    if (!localStorage.getItem('_xt')) {
+    if (!localStorage.getItem('jwt_token')) {
       window.location.href = '#/login'
     }
   } else {
     // 登录页面，如果已经登录则跳去首页
-    if (localStorage.getItem('_xt')) {
+    if (localStorage.getItem('jwt_token')) {
       window.location.href = '#/'
     }
   }

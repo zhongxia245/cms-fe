@@ -47,11 +47,13 @@ export default class UserLogin extends Component {
         return
       }
       onLogin &&
-        onLogin(values).then(result => {
+        onLogin(values).then(resp => {
+          let result = resp.data.data
           if (result) {
-            localStorage.setItem('_xt', 1)
+            localStorage.setItem('jwt_token', result.token)
             window.location.href = '#/'
           } else {
+            localStorage.removeItem('jwt_token')
             let value = this.state.value
             value.password = ''
             this.setState({ value: value })

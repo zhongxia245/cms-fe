@@ -1,9 +1,7 @@
 import Axios from 'axios'
 import { BASE_URL } from '../../config'
 
-const axiosInstance = Axios.create()
-
-// axiosInstance.interceptors.response.use(resp => {
+// Axios.interceptors.response.use(resp => {
 //   if (resp.data.r) {
 //     return resp.data.data
 //   } else {
@@ -35,50 +33,50 @@ for (const key in URLS) {
 }
 
 export const get = (tableName, pageIndex, filter) => {
-  return axiosInstance.get(`${URLS.get}${tableName}/${pageIndex}`, { params: filter })
+  return Axios.get(`${URLS.get}${tableName}/${pageIndex}`, { params: filter })
 }
 
 export const getById = (tableName, id) => {
-  return axiosInstance.get(`${URLS.getById}${tableName}/${id}`)
+  return Axios.get(`${URLS.getById}${tableName}/${id}`)
 }
 
 export const del = (tableName, id) => {
-  return axiosInstance.delete(`${URLS.del}${tableName}/${id}`)
+  return Axios.delete(`${URLS.del}${tableName}/${id}`)
 }
 
 export const update = (tableName, user) => {
-  return axiosInstance.put(`${URLS.update}${tableName}`, user)
+  return Axios.put(`${URLS.update}${tableName}`, user)
 }
 
 export const add = (tableName, user) => {
-  return axiosInstance.post(`${URLS.add}${tableName}`, user)
+  return Axios.post(`${URLS.add}${tableName}`, user)
 }
 
 // 添加表的逻辑 和常规增删改查不一样，因此单独定义
 export const addTableConfig = (tableName, tableData) => {
-  return axiosInstance.post(`${URLS.addTableConfig}${tableData.table_name}`)
+  return Axios.post(`${URLS.addTableConfig}${tableData.table_name}`)
 }
 
 export const delTableConfig = (tableName, id) => {
-  return axiosInstance.delete(`${URLS.delTableConfig}${id}`)
+  return Axios.delete(`${URLS.delTableConfig}${id}`)
 }
 
 export const getColumns = tableId => {
-  return axiosInstance.get(`${URLS.getColumnsById}${tableId}`)
+  return Axios.get(`${URLS.getColumnsById}${tableId}`)
 }
 
 export const getTableById = tableId => {
-  return axiosInstance.get(`${URLS.getTableById}${tableId}`)
+  return Axios.get(`${URLS.getTableById}${tableId}`)
 }
 
 export const getTables = dbName => {
-  return axiosInstance.get(`${URLS.getTables}${dbName}`)
+  return Axios.get(`${URLS.getTables}${dbName}`)
 }
 
 export const getDataBase = tableId => {
-  return axiosInstance.get(`${URLS.getDataBase}`)
+  return Axios.get(`${URLS.getDataBase}`)
 }
 
 export const getNavConfig = () => {
-  return axiosInstance.get(`${URLS.getNavConfig}`)
+  return Axios.get(`${URLS.getNavConfig}`)
 }

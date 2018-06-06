@@ -91,7 +91,7 @@ export default class Header extends PureComponent {
                 style={{ color: 'rgb(42, 100, 232)' }}
                 className="user-profile-menu-item"
                 onClick={() => {
-                  localStorage.removeItem('_xt')
+                  localStorage.removeItem('jwt_token')
                   window.location.href = '#/login'
                 }}
               >

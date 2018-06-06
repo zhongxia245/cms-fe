@@ -1,26 +1,17 @@
 import Axios from 'axios'
 import { BASE_URL } from '../../config'
-import { Feedback } from "@icedesign/base";
-const axiosInstance = Axios.create()
-
-axiosInstance.interceptors.response.use(resp => {
-  if (resp.data.code === 0) {
-    return resp.data.data
-  } else {
-    Feedback.toast.error(resp.data.data)
-  }
-})
+import { Feedback } from '@icedesign/base'
 
 let URLS = {
-  login: '/api/login',
+  login: '/api/login'
 }
 
 for (const key in URLS) {
   if (URLS.hasOwnProperty(key)) {
-    URLS[key] = `${BASE_URL}${URLS[key]}`;
+    URLS[key] = `${BASE_URL}${URLS[key]}`
   }
 }
 
-export const login = (userInfo) => {
-  return axiosInstance.post(URLS.login, userInfo)
+export const login = userInfo => {
+  return Axios.post(URLS.login, userInfo)
 }
