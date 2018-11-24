@@ -38,7 +38,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "gulp": "^3.9.1",
     "gulp-qiniu": "^0.2.4",
-    "ice-scripts": "^1.0.2"
+    "ice-scripts": "^1.7.7"
   },
   "scripts": {
     "start": "ice dev",
@@ -58,5 +58,11 @@
     "title": "通用后台管理系统",
     "snapshot": "https://img.alicdn.com/tfs/TB1E8RHb21TBuNjy0FjXXajyXXa-2838-1596.png"
   },
-  "title": "CMS"
+  "title": "CMS",
+  "proxyConfig": {
+    "/api/*": {
+      "enable": true,
+      "target": "http://127.0.0.1:7001"
+    }
+  }
 }

@@ -149,11 +149,7 @@ export default class XtTable extends Component {
           isFullScreen
           visible={this.state.visible}
         >
-          {newChildren ? (
-            newChildren
-          ) : (
-            <FormDialog ref="refForm" config={columns} data={dialogData} />
-          )}
+          {newChildren ? newChildren : <FormDialog ref="refForm" config={columns} data={dialogData} />}
         </Dialog>
       </div>
     )
