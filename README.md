@@ -27,5 +27,3 @@
 3. 自动生成表格，带翻页，删除，新增，删除
 4. 支持配置展示的字段，编辑的字段等
 
-效果：
-![](https://ws4.sinaimg.cn/large/006tNc79gy1fp9a3tuom2j31kw0tgahg.jpg)
